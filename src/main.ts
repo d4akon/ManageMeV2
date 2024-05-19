@@ -1,24 +1,37 @@
-import './style.css'
-import typescriptLogo from './typescript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.ts'
+import AddButton from './components/addButton';
+import Container from './components/container';
+import HeaderLabel from './components/headerLabel';
+import Modal from './components/modal';
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://www.typescriptlang.org/" target="_blank">
-      <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
-    </a>
-    <h1>Vite + TypeScript</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite and TypeScript logos to learn more
-    </p>
-  </div>
-`
+// @ts-ignore: Unused parameter
+const headerContainer = new Container('header-container', 'app');
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+// @ts-ignore: Unused parameter
+const contentContainer = new Container('content-container', 'app');
+
+// @ts-ignore: Unused parameter
+const modal = new Modal('add-form-modal', 'content-container');
+
+// @ts-ignore: Unused parameter
+const headerLabel = new HeaderLabel(
+  'Manage me',
+  'title-header',
+  'header-container'
+);
+
+const test = document.createElement('h1');
+test.innerText = 'TEST';
+
+modal.setContent(test);
+
+const handleClick = (): void => {
+  modal.open();
+};
+
+// @ts-ignore: Unused parameter
+const addButton = new AddButton(
+  'Add new project',
+  'add-project-btn',
+  'content-container',
+  handleClick
+);
