@@ -7,6 +7,19 @@
   color: #3165eb;
 }
 
+#projects-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.project-item {
+  padding: 10px;
+  margin: 10px;
+  background-color: rgb(157, 157, 226);
+  display: block;
+}
+
 #add-project-btn {
 }
 
