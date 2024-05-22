@@ -38,8 +38,15 @@ class ProjectForm {
         this.projectInput.value,
         this.descInput.value
       );
+      this.projectInput.value = '';
+      this.descInput.value = '';
       onSubmitHandler(event, project);
     };
+  }
+
+  public setProjectData(project: Project): void {
+    this.projectInput.value = project.name;
+    this.descInput.value = project.description;
   }
 }
 

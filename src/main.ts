@@ -23,16 +23,11 @@ new AddButton(
   'content-container',
   handleClick
 );
-
 new Container('projects-container', 'content-container');
 
 const modal = new Modal('add-form-modal', 'content-container');
-
-new HeaderLabel('Manage me', 'title-header', 'header-container');
-
 const projectForm = new ProjectForm('project-form');
 
-// @ts-ignore: Unused parameter
 projectForm.setOnSubmit((event, project: Project) => {
   projectApiHelper.create(project);
   new ProjectItem('projects-container', project);
@@ -41,10 +36,9 @@ projectForm.setOnSubmit((event, project: Project) => {
 
 modal.setContent(projectForm.form);
 
+new HeaderLabel('Manage me', 'title-header', 'header-container');
+
 window.onload = () => {
   const projects = projectApiHelper.getAll();
-  projects.forEach((project) => {
-    console.log(project);
-    new ProjectItem('projects-container', project);
-  });
+  projects.forEach((project) => new ProjectItem('projects-container', project));
 };

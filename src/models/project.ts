@@ -1,5 +1,5 @@
 export class Project {
-  public readonly uuid: string;
+  public uuid: string;
   public name: string;
   public description: string;
   public isActive: boolean;

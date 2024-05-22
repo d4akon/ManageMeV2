@@ -37,9 +37,9 @@ class Modal {
   public setContent(content: HTMLElement): void {
     const modalContent = this.overlay.querySelector('.modal-content');
     if (modalContent) {
-      modalContent.innerHTML = ''; // Clear previous content
-      modalContent.appendChild(this.closeButton); // Add the close button again
-      modalContent.appendChild(content); // Add new content
+      modalContent.innerHTML = '';
+      modalContent.appendChild(this.closeButton);
+      modalContent.appendChild(content);
     }
   }
 }
