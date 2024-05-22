@@ -1,13 +1,25 @@
+import Label from './components/Label';
 import AddButton from './components/addButton';
 import Container from './components/container';
 import HeaderLabel from './components/headerLabel';
 import Modal from './components/modal';
 import ProjectForm from './components/projectForm';
 import ProjectItem from './components/projectItem';
+import { Role } from './enums/role';
 import { ProjectsApiHelper } from './helpers/projectApiHelper';
+import { UsersApiHelper } from './helpers/userApiHelper';
 import { Project } from './models/project';
+import { User } from './models/user';
+import { UserService } from './services/userService';
 
 const projectApiHelper = new ProjectsApiHelper();
+const userApiHelper = new UsersApiHelper();
+
+const testUser = new User('Andrzej', 'Nowak', 'Test', Role.Admin);
+
+userApiHelper.create(testUser);
+
+UserService.loginUser(testUser);
 
 new Container('header-container', 'app');
 
@@ -37,6 +49,10 @@ projectForm.setOnSubmit((event, project: Project) => {
 modal.setContent(projectForm.form);
 
 new HeaderLabel('Manage me', 'title-header', 'header-container');
+
+const currentUser = UserService.getLoggedInUser();
+const welcomeMessage = `Welcome ${currentUser?.name} ${currentUser?.surname}!`;
+new Label(welcomeMessage, 'welcome-label', 'header-container');
 
 window.onload = () => {
   const projects = projectApiHelper.getAll();

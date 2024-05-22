@@ -1,9 +1,15 @@
 #header-container {
-  display: flex;
-  justify-content: center;
+  margin-bottom: 20px;
 }
 
 #title-header {
+  display: inline;
+  color: #3165eb;
+}
+
+#welcome-label {
+  float: right;
+  display: inline;
   color: #3165eb;
 }
 
