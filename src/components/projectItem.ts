@@ -18,6 +18,7 @@ class ProjectItem {
     const title = document.createElement('h2');
     title.className = 'project-item-title';
     title.textContent = project.name;
+    title.onclick = () => this.navigateToProject(project);
 
     const desc = document.createElement('h4');
     desc.className = 'project-item-desc';
@@ -64,6 +65,10 @@ class ProjectItem {
 
     this.modal.setContent(editForm.form);
     this.modal.open();
+  }
+
+  private navigateToProject(project: Project): void {
+    alert(`Navigate to ${project.name} project`);
   }
 }
 

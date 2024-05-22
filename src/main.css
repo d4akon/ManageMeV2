@@ -28,11 +28,15 @@
   position: relative;
 }
 
-.project-item h2 {
+.project-item-title {
   margin: 0;
 }
 
-.project-item h4 {
+.project-item-title:hover {
+  cursor: pointer;
+}
+
+.project-item-desc {
   margin: 5px 0;
 }
 
@@ -58,6 +62,10 @@
   width: 150px;
   color: #ffff;
   font-weight: bold;
+}
+
+button:hover {
+  cursor: pointer;
 }
 
 .form-component {
