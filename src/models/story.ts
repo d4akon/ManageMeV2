@@ -2,7 +2,7 @@ import { Priority } from '../enums/priority';
 import { Status } from '../enums/status';
 
 export class Story {
-  public readonly uuid: string;
+  public uuid: string;
   public name: string;
   public description: string;
   public priority: Priority;

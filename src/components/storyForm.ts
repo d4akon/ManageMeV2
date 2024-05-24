@@ -9,6 +9,7 @@ class StoryForm {
   private nameInput: HTMLInputElement;
   private descriptionInput: HTMLInputElement;
   private prioritySelect: HTMLSelectElement;
+  private statusSelect: HTMLSelectElement;
   private ownerSelect: HTMLSelectElement;
   private usersApiHelper: UserApiHelper;
   private projectApiHelper: ProjectsApiHelper;
@@ -39,6 +40,17 @@ class StoryForm {
         this.prioritySelect.appendChild(option);
       });
 
+    this.statusSelect = document.createElement('select');
+    this.statusSelect.name = 'status';
+    Object.keys(Status)
+      .filter((key) => isNaN(Number(key)))
+      .forEach((key) => {
+        const option = document.createElement('option');
+        option.value = key;
+        option.textContent = key;
+        this.statusSelect.appendChild(option);
+      });
+
     this.ownerSelect = document.createElement('select');
     this.ownerSelect.name = 'ownerUuid';
 
@@ -53,6 +65,7 @@ class StoryForm {
     this.form.appendChild(this.nameInput);
     this.form.appendChild(this.descriptionInput);
     this.form.appendChild(this.prioritySelect);
+    this.form.appendChild(this.statusSelect);
     this.form.appendChild(this.ownerSelect);
     this.form.appendChild(submitButton);
   }
@@ -76,7 +89,7 @@ class StoryForm {
         this.nameInput.value,
         this.descriptionInput.value,
         Priority[this.prioritySelect.value as keyof typeof Priority],
-        Status.ToDo,
+        Status[this.statusSelect.value as keyof typeof Status],
         this.projectApiHelper.getActiveProject()?.uuid ?? '',
         this.ownerSelect.value
       );
@@ -89,6 +102,7 @@ class StoryForm {
     this.nameInput.value = story.name;
     this.descriptionInput.value = story.description;
     this.prioritySelect.value = Priority[story.priority];
+    this.statusSelect.value = Status[story.status];
     this.ownerSelect.value = story.ownerUuid;
   }
 
@@ -96,6 +110,7 @@ class StoryForm {
     this.nameInput.value = '';
     this.descriptionInput.value = '';
     this.prioritySelect.value = '';
+    this.statusSelect.value = '';
     this.ownerSelect.value = '';
   }
 }
