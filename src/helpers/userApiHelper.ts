@@ -1,7 +1,7 @@
 import { User } from '../models/user';
 import { IApiHelper } from './iApiHelper';
 
-export class UsersApiHelper implements IApiHelper<User> {
+export class UserApiHelper implements IApiHelper<User> {
   private readonly STORAGE_KEY = 'Users';
 
   private getUsersFromLocalStorage(): User[] {

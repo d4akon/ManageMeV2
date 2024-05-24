@@ -1,4 +1,4 @@
-class Label {
+export class Label {
   private headerLabel: HTMLElement;
 
   constructor(text: string, idName: string, parentId: string) {
@@ -14,5 +14,3 @@ class Label {
     }
   }
 }
-
-export default Label;

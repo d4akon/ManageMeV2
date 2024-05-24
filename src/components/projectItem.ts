@@ -68,7 +68,16 @@ class ProjectItem {
   }
 
   private navigateToProject(project: Project): void {
-    alert(`Navigate to ${project.name} project`);
+    const allProjects = this.projectApiHelper.getAll();
+    allProjects.forEach((p) => {
+      p.isActive = false;
+      this.projectApiHelper.update(p);
+    });
+
+    project.isActive = true;
+    this.projectApiHelper.update(project);
+
+    window.location.href = `src/views/projectView.html`;
   }
 }
 

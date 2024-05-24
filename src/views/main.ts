@@ -1,4 +1,4 @@
-import Label from '../components/Label';
+import { Label } from '../components/Label';
 import AddButton from '../components/addButton';
 import Container from '../components/container';
 import HeaderLabel from '../components/headerLabel';
@@ -7,13 +7,13 @@ import ProjectForm from '../components/projectForm';
 import ProjectItem from '../components/projectItem';
 import { Role } from '../enums/role';
 import { ProjectsApiHelper } from '../helpers/projectApiHelper';
-import { UsersApiHelper } from '../helpers/userApiHelper';
+import { UserApiHelper } from '../helpers/userApiHelper';
 import { Project } from '../models/project';
 import { User } from '../models/user';
 import { UserService } from '../services/userService';
 
 const projectApiHelper = new ProjectsApiHelper();
-const userApiHelper = new UsersApiHelper();
+const userApiHelper = new UserApiHelper();
 
 const testUser = new User('Andrzej', 'Nowak', 'Test', Role.Admin);
 

@@ -54,4 +54,9 @@ export class ProjectsApiHelper implements IApiHelper<Project> {
       console.error('Project not found for deletion:', uuid);
     }
   }
+
+  getActiveProject(): Project | undefined {
+    const projects: Project[] = this.getProjectsFromLocalStorage();
+    return projects.find((x) => x.isActive == true);
+  }
 }
