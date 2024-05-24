@@ -17,7 +17,9 @@ const userApiHelper = new UserApiHelper();
 
 const testUser = new User('Andrzej', 'Nowak', 'Test', Role.Admin);
 
-userApiHelper.create(testUser);
+if (!localStorage.getItem('Users')) {
+  userApiHelper.create(testUser);
+}
 
 UserService.loginUser(testUser);
 
