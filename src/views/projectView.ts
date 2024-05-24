@@ -60,6 +60,7 @@ new Label(
   'header-container'
 );
 
+//TODO storiesApiHelper.getAllByProjectsUuid();
 window.onload = () => {
   const stories = storiesApiHelper.getAll();
   stories.forEach((story) => {
