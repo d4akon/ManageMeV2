@@ -6,7 +6,7 @@ export class Task {
   public name: string;
   public description: string;
   public priority: Priority;
-  public storyUuid: string;
+  public storyUuid: string | null;
   public status: Status;
   public readonly dateOfCreation: Date;
   public dateOfStart: Date | null;
@@ -17,7 +17,7 @@ export class Task {
     name: string,
     description: string,
     priority: Priority,
-    storyUuid: string,
+    storyUuid: string | null,
     status: Status,
     dateOfStart: Date | null,
     dateOfFinish: Date | null,

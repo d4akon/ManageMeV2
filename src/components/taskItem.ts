@@ -52,7 +52,7 @@ class TaskItem {
   }
 
   private openEditModal(task: Task): void {
-    const editForm = new TaskForm('edit-task-form');
+    const editForm = new TaskForm('edit-task-form', task.storyUuid);
     editForm.setTaskData(task);
 
     editForm.setOnSubmit((event: Event, updatedTask: Task) => {

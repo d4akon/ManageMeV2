@@ -13,11 +13,14 @@ class TaskForm {
   private ownerSelect: HTMLSelectElement;
   private usersApiHelper: UserApiHelper;
   private projectApiHelper: ProjectsApiHelper;
+  private storyUuid: string | null;
 
-  constructor(idName: string, storyUuid: string) {
+  constructor(idName: string, storyUuid: string | null) {
     this.form = document.createElement('form');
     this.form.className = 'form-component';
     this.form.id = idName;
+
+    this.storyUuid = storyUuid;
 
     this.nameInput = document.createElement('input');
     this.nameInput.type = 'text';
@@ -89,7 +92,7 @@ class TaskForm {
         this.nameInput.value,
         this.descriptionInput.value,
         Priority[this.prioritySelect.value as keyof typeof Priority],
-        'TEST STORY',
+        this.storyUuid,
         Status.Doing,
         new Date(),
         null,
