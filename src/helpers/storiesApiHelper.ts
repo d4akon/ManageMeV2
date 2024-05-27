@@ -54,4 +54,9 @@ export class StoriesApiHelper implements IApiHelper<Story> {
       console.error('Story not found for deletion:', uuid);
     }
   }
+
+  getAllByProjectsUuid(uuid: string | undefined): Story[] {
+    const stories: Story[] = this.getStoriesFromLocalStorage();
+    return stories.filter((story) => story.projectUuid == uuid);
+  }
 }

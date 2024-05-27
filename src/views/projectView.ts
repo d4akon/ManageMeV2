@@ -62,7 +62,8 @@ new Label(
 
 //TODO storiesApiHelper.getAllByProjectsUuid();
 window.onload = () => {
-  const stories = storiesApiHelper.getAll();
+  const activeProject = projectApiHelper.getActiveProject();
+  const stories = storiesApiHelper.getAllByProjectsUuid(activeProject?.uuid);
   stories.forEach((story) => {
     switch (story.status) {
       case Status.ToDo:
