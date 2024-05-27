@@ -15,13 +15,17 @@ import { UserService } from '../services/userService';
 const projectApiHelper = new ProjectsApiHelper();
 const userApiHelper = new UserApiHelper();
 
-const testUser = new User('Andrzej', 'Nowak', 'Test', Role.Admin);
+const testUser1 = new User('Andrzej', 'Nowak', 'Test', Role.Admin);
+const testUser2 = new User('Tomasz', 'Nowak', 'haslo', Role.Developer);
+const testUser3 = new User('Jan', 'Duda', 'haslo1', Role.Devops);
 
 if (!localStorage.getItem('Users')) {
-  userApiHelper.create(testUser);
+  userApiHelper.create(testUser1);
+  userApiHelper.create(testUser2);
+  userApiHelper.create(testUser2);
 }
 
-UserService.loginUser(testUser);
+UserService.loginUser(testUser1);
 
 new Container('header-container', 'app');
 

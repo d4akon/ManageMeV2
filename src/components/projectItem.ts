@@ -77,7 +77,7 @@ class ProjectItem {
     project.isActive = true;
     this.projectApiHelper.update(project);
 
-    window.location.href = `src/views/projectView.html`;
+    window.location.href = `src/views/storyView.html`;
   }
 }
 

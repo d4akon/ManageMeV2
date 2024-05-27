@@ -68,7 +68,7 @@ class StoryItem {
   }
 
   private navigateToStory(story: Story): void {
-    // Implement navigation logic here
+    window.location.href = `taskView.html?storyId=${story.uuid}`;
   }
 }
 

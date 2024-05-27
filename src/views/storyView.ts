@@ -1,4 +1,3 @@
-// Import necessary components and helpers
 import { Label } from '../components/Label';
 import AddButton from '../components/addButton';
 import BackButton from '../components/backButton';
@@ -60,7 +59,6 @@ new Label(
   'header-container'
 );
 
-//TODO storiesApiHelper.getAllByProjectsUuid();
 window.onload = () => {
   const activeProject = projectApiHelper.getActiveProject();
   const stories = storiesApiHelper.getAllByProjectsUuid(activeProject?.uuid);
