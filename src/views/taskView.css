@@ -143,14 +143,21 @@ button:hover {
   color: white;
   font-weight: bold;
 }
-.task-item-edit {
+#task-item-edit {
   border: 0;
   background-color: #3165eb;
   color: white;
   font-weight: bold;
 }
+#task-item-finish {
+  float: right;
+  border: 0;
+  background-color: green;
+  color: white;
+  font-weight: bold;
+}
 
-#edit-form-modal {
+#edit-task-modal {
   position: fixed;
   top: 0;
   left: 0;

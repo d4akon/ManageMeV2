@@ -1,3 +1,4 @@
+import { Status } from '../enums/status';
 import { TaskApiHelper } from '../helpers/taskApiHelper';
 import { Task } from '../models/task';
 import Modal from './modal';
@@ -29,14 +30,22 @@ class TaskItem {
     deleteButton.onclick = () => this.deleteTask(task);
 
     const editButton = document.createElement('button');
-    editButton.className = 'task-item-edit';
+    editButton.id = 'task-item-edit';
     editButton.textContent = 'Edit';
     editButton.onclick = () => this.openEditModal(task);
+    if (task.status === Status.Done) editButton.style.visibility = 'hidden';
+
+    const finishButton = document.createElement('button');
+    finishButton.id = 'task-item-finish';
+    finishButton.textContent = 'Finish';
+    finishButton.onclick = () => this.finishTask(task);
+    if (task.status === Status.Done) finishButton.style.visibility = 'hidden';
 
     this.element.appendChild(deleteButton);
     this.element.appendChild(title);
     this.element.appendChild(desc);
     this.element.appendChild(editButton);
+    if (task.assignedUserUuid) this.element.appendChild(finishButton);
 
     const parent: HTMLElement | null = document.getElementById(parentId);
     if (parent) {
@@ -64,6 +73,13 @@ class TaskItem {
 
     this.modal.setContent(editForm.form);
     this.modal.open();
+  }
+
+  private finishTask(task: Task): void {
+    task.status = Status.Done;
+    task.dateOfFinish = new Date();
+    this.taskApiHelper.update(task);
+    location.reload();
   }
 }
 

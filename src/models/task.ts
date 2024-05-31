@@ -12,7 +12,7 @@ export class Task {
   public readonly dateOfCreation: Date;
   public dateOfStart: Date | null;
   public dateOfFinish: Date | null;
-  public assignedUserUuid: string;
+  public assignedUserUuid: string | null;
 
   constructor(
     name: string,
@@ -22,7 +22,7 @@ export class Task {
     storyUuid: string | null,
     dateOfStart: Date | null,
     dateOfFinish: Date | null,
-    assignedUserUuid: string
+    assignedUserUuid: string | null
   ) {
     this.uuid = crypto.randomUUID();
     this.name = name;

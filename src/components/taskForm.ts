@@ -51,10 +51,11 @@ class TaskForm {
 
     this.ownerSelect = document.createElement('select');
     this.ownerSelect.name = 'ownerUuid';
+    this.ownerSelect.value = '';
+    this.ownerSelect.style.visibility = 'hidden';
 
     this.usersApiHelper = new UserApiHelper();
     this.projectApiHelper = new ProjectsApiHelper();
-    this.populateOwnerSelect();
 
     const submitButton = document.createElement('button');
     submitButton.type = 'submit';
@@ -92,25 +93,34 @@ class TaskForm {
         Number(this.hoursToCompleteInput.value),
         Priority[this.prioritySelect.value as keyof typeof Priority],
         this.storyUuid,
-        new Date(),
         null,
-        this.ownerSelect.value
+        null,
+        null
       );
+      if (this.ownerSelect.value) {
+        task.assignedUserUuid = this.ownerSelect.value;
+        task.status = Status.Doing;
+        task.dateOfStart = new Date();
+      }
       this.clearForm();
       onSubmitHandler(event, task);
     };
   }
 
   public setTaskData(task: Task): void {
+    this.populateOwnerSelect();
     this.nameInput.value = task.name;
     this.descriptionInput.value = task.description;
+    this.hoursToCompleteInput.value = task.hoursToComplete.toString();
     this.prioritySelect.value = Priority[task.priority];
-    this.ownerSelect.value = task.assignedUserUuid;
+    this.ownerSelect.value = task.assignedUserUuid ?? '';
+    this.ownerSelect.style.visibility = 'visible';
   }
 
   private clearForm(): void {
     this.nameInput.value = '';
     this.descriptionInput.value = '';
+    this.hoursToCompleteInput.value = '';
     this.prioritySelect.value = '';
     this.ownerSelect.value = '';
   }
