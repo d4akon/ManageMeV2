@@ -22,7 +22,7 @@ const testUser3 = new User('Jan', 'Duda', 'haslo1', Role.Devops);
 if (!localStorage.getItem('Users')) {
   userApiHelper.create(testUser1);
   userApiHelper.create(testUser2);
-  userApiHelper.create(testUser2);
+  userApiHelper.create(testUser3);
 }
 
 UserService.loginUser(testUser1);

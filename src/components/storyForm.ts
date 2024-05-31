@@ -3,6 +3,7 @@ import { Priority } from '../enums/priority';
 import { Status } from '../enums/status';
 import { UserApiHelper } from '../helpers/userApiHelper';
 import { ProjectsApiHelper } from '../helpers/projectApiHelper';
+import { Role } from '../enums/role';
 
 class StoryForm {
   public form: HTMLFormElement;
@@ -75,7 +76,7 @@ class StoryForm {
     users.forEach((user) => {
       const option = document.createElement('option');
       option.value = user.uuid;
-      option.textContent = `${user.name} ${user.surname}`;
+      option.textContent = `${user.name} ${user.surname} - ${Role[user.role]}`;
       this.ownerSelect.appendChild(option);
     });
   }
