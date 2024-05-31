@@ -3,13 +3,14 @@ import { Priority } from '../enums/priority';
 import { Status } from '../enums/status';
 import { UserApiHelper } from '../helpers/userApiHelper';
 import { ProjectsApiHelper } from '../helpers/projectApiHelper';
+import { Role } from '../enums/role';
 
 class TaskForm {
   public form: HTMLFormElement;
   private nameInput: HTMLInputElement;
   private descriptionInput: HTMLInputElement;
+  private hoursToCompleteInput: HTMLInputElement;
   private prioritySelect: HTMLSelectElement;
-  private statusSelect: HTMLSelectElement;
   private ownerSelect: HTMLSelectElement;
   private usersApiHelper: UserApiHelper;
   private projectApiHelper: ProjectsApiHelper;
@@ -32,6 +33,11 @@ class TaskForm {
     this.descriptionInput.placeholder = 'Enter task description';
     this.descriptionInput.name = 'taskDescription';
 
+    this.hoursToCompleteInput = document.createElement('input');
+    this.hoursToCompleteInput.type = 'text';
+    this.hoursToCompleteInput.placeholder = 'Enter expected hours to complete';
+    this.hoursToCompleteInput.name = 'taskHoursToComplete';
+
     this.prioritySelect = document.createElement('select');
     this.prioritySelect.name = 'priority';
     Object.keys(Priority)
@@ -41,17 +47,6 @@ class TaskForm {
         option.value = key;
         option.textContent = key;
         this.prioritySelect.appendChild(option);
-      });
-
-    this.statusSelect = document.createElement('select');
-    this.statusSelect.name = 'status';
-    Object.keys(Status)
-      .filter((key) => isNaN(Number(key)))
-      .forEach((key) => {
-        const option = document.createElement('option');
-        option.value = key;
-        option.textContent = key;
-        this.statusSelect.appendChild(option);
       });
 
     this.ownerSelect = document.createElement('select');
@@ -67,18 +62,21 @@ class TaskForm {
 
     this.form.appendChild(this.nameInput);
     this.form.appendChild(this.descriptionInput);
+    this.form.appendChild(this.hoursToCompleteInput);
     this.form.appendChild(this.prioritySelect);
-    this.form.appendChild(this.statusSelect);
     this.form.appendChild(this.ownerSelect);
     this.form.appendChild(submitButton);
   }
 
   private populateOwnerSelect(): void {
-    const users = this.usersApiHelper.getAll();
+    let users = this.usersApiHelper.getAll();
+    users = users.filter(
+      (x) => x.role === Role.Developer || x.role === Role.Devops
+    );
     users.forEach((user) => {
       const option = document.createElement('option');
       option.value = user.uuid;
-      option.textContent = `${user.name} ${user.surname}`;
+      option.textContent = `${user.name} ${user.surname} - ${Role[user.role]}`;
       this.ownerSelect.appendChild(option);
     });
   }
@@ -91,9 +89,9 @@ class TaskForm {
       const task = new Task(
         this.nameInput.value,
         this.descriptionInput.value,
+        Number(this.hoursToCompleteInput.value),
         Priority[this.prioritySelect.value as keyof typeof Priority],
         this.storyUuid,
-        Status.Doing,
         new Date(),
         null,
         this.ownerSelect.value
@@ -107,7 +105,6 @@ class TaskForm {
     this.nameInput.value = task.name;
     this.descriptionInput.value = task.description;
     this.prioritySelect.value = Priority[task.priority];
-    this.statusSelect.value = Status[task.status];
     this.ownerSelect.value = task.assignedUserUuid;
   }
 
@@ -115,7 +112,6 @@ class TaskForm {
     this.nameInput.value = '';
     this.descriptionInput.value = '';
     this.prioritySelect.value = '';
-    this.statusSelect.value = '';
     this.ownerSelect.value = '';
   }
 }

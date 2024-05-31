@@ -5,6 +5,7 @@ export class Task {
   public uuid: string;
   public name: string;
   public description: string;
+  public hoursToComplete: number;
   public priority: Priority;
   public storyUuid: string | null;
   public status: Status;
@@ -16,9 +17,9 @@ export class Task {
   constructor(
     name: string,
     description: string,
+    hoursToComplete: number,
     priority: Priority,
     storyUuid: string | null,
-    status: Status,
     dateOfStart: Date | null,
     dateOfFinish: Date | null,
     assignedUserUuid: string
@@ -26,9 +27,10 @@ export class Task {
     this.uuid = crypto.randomUUID();
     this.name = name;
     this.description = description;
+    this.hoursToComplete = hoursToComplete;
     this.priority = priority;
     this.storyUuid = storyUuid;
-    this.status = status;
+    this.status = Status.ToDo;
     this.dateOfCreation = new Date();
     this.dateOfStart = null;
     this.dateOfFinish = null;
