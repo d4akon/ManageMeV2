@@ -3,8 +3,18 @@
 }
 
 #title-header {
-  display: inline;
+  display: blocks;
   color: #3165eb;
+}
+
+#login-button {
+  background-color: #3165eb;
+  border: 0;
+  height: 30px;
+  float: right;
+  width: 50px;
+  color: #ffff;
+  font-weight: bold;
 }
 
 #welcome-label {

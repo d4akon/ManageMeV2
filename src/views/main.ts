@@ -2,6 +2,7 @@ import { Label } from '../components/Label';
 import AddButton from '../components/addButton';
 import Container from '../components/container';
 import HeaderLabel from '../components/headerLabel';
+import { LoginButton } from '../components/loginButton';
 import Modal from '../components/modal';
 import ProjectForm from '../components/projectForm';
 import ProjectItem from '../components/projectItem';
@@ -24,8 +25,6 @@ if (!localStorage.getItem('Users')) {
   userApiHelper.create(testUser2);
   userApiHelper.create(testUser3);
 }
-
-UserService.loginUser(testUser1);
 
 new Container('header-container', 'app');
 
@@ -56,9 +55,14 @@ modal.setContent(projectForm.form);
 
 new HeaderLabel('Manage me', 'title-header', 'header-container');
 
+new LoginButton('login-button', 'title-header');
+
 const currentUser = UserService.getLoggedInUser();
-const welcomeMessage = `Welcome ${currentUser?.name} ${currentUser?.surname}!`;
-new Label(welcomeMessage, 'welcome-label', 'header-container');
+
+if (currentUser) {
+  const welcomeMessage = `Welcome ${currentUser?.name} ${currentUser?.surname}!`;
+  new Label(welcomeMessage, 'welcome-label', 'header-container');
+}
 
 window.onload = () => {
   const projects = projectApiHelper.getAll();
