@@ -81,21 +81,32 @@ class StoryForm {
     });
   }
 
-  public setOnSubmit(
+  public async setOnSubmit(
     onSubmitHandler: (event: Event, story: Story) => void
-  ): void {
-    this.form.onsubmit = (event: Event) => {
+  ) {
+    this.form.onsubmit = async (event: Event) => {
       event.preventDefault();
-      const story = new Story(
-        this.nameInput.value,
-        this.descriptionInput.value,
-        Priority[this.prioritySelect.value as keyof typeof Priority],
-        Status[this.statusSelect.value as keyof typeof Status],
-        this.projectApiHelper.getActiveProject()?.uuid ?? '',
-        this.ownerSelect.value
-      );
-      this.clearForm();
-      onSubmitHandler(event, story);
+
+      const activeProject = await this.projectApiHelper.getActiveProject();
+      console.log(activeProject);
+
+      if (activeProject) {
+        const story = new Story(
+          crypto.randomUUID(),
+          this.nameInput.value,
+          this.descriptionInput.value,
+          Priority[this.prioritySelect.value as keyof typeof Priority],
+          Status[this.statusSelect.value as keyof typeof Status],
+          new Date(),
+          activeProject.uuid,
+          this.ownerSelect.value
+        );
+
+        this.clearForm();
+        onSubmitHandler(event, story);
+      } else {
+        console.error('No active project found');
+      }
     };
   }
 

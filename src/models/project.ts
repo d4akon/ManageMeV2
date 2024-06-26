@@ -4,8 +4,13 @@ export class Project {
   public description: string;
   public isActive: boolean;
 
-  constructor(name: string, description: string, isActive: boolean = false) {
-    this.uuid = crypto.randomUUID();
+  constructor(
+    uuid: string,
+    name: string,
+    description: string,
+    isActive: boolean = false
+  ) {
+    this.uuid = uuid ?? crypto.randomUUID();
     this.name = name;
     this.description = description;
     this.isActive = isActive;

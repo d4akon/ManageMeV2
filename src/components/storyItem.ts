@@ -47,8 +47,8 @@ class StoryItem {
     }
   }
 
-  private deleteStory(story: Story): void {
-    this.storiesApiHelper.delete(story.uuid);
+  private async deleteStory(story: Story): Promise<void> {
+    await this.storiesApiHelper.delete(story.uuid);
     this.element.remove();
   }
 
@@ -56,9 +56,9 @@ class StoryItem {
     const editForm = new StoryForm('edit-story-form');
     editForm.setStoryData(story);
 
-    editForm.setOnSubmit((event: Event, updatedStory: Story) => {
+    editForm.setOnSubmit(async (event: Event, updatedStory: Story) => {
       updatedStory.uuid = story.uuid;
-      this.storiesApiHelper.update(updatedStory);
+      await this.storiesApiHelper.update(updatedStory);
       this.modal.close();
       location.reload();
     });

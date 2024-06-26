@@ -18,7 +18,7 @@ class ProjectItem {
     const title = document.createElement('h2');
     title.className = 'project-item-title';
     title.textContent = project.name;
-    title.onclick = () => this.navigateToProject(project);
+    title.onclick = async () => await this.navigateToProject(project);
 
     const desc = document.createElement('h4');
     desc.className = 'project-item-desc';
@@ -47,8 +47,8 @@ class ProjectItem {
     }
   }
 
-  private deleteProject(project: Project): void {
-    this.projectApiHelper.delete(project.uuid);
+  private async deleteProject(project: Project): Promise<void> {
+    await this.projectApiHelper.delete(project.uuid);
     this.element.remove();
   }
 
@@ -67,15 +67,15 @@ class ProjectItem {
     this.modal.open();
   }
 
-  private navigateToProject(project: Project): void {
-    const allProjects = this.projectApiHelper.getAll();
-    allProjects.forEach((p) => {
+  private async navigateToProject(project: Project): Promise<void> {
+    const allProjects = await this.projectApiHelper.getAll();
+    allProjects.forEach(async (p) => {
       p.isActive = false;
-      this.projectApiHelper.update(p);
+      await this.projectApiHelper.update(p);
     });
 
     project.isActive = true;
-    this.projectApiHelper.update(project);
+    await this.projectApiHelper.update(project);
 
     window.location.href = `src/views/storyView.html`;
   }

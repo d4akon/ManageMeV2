@@ -64,7 +64,7 @@ if (currentUser) {
   new Label(welcomeMessage, 'welcome-label', 'header-container');
 }
 
-window.onload = () => {
-  const projects = projectApiHelper.getAll();
+window.onload = async () => {
+  const projects = await projectApiHelper.getAll();
   projects.forEach((project) => new ProjectItem('projects-container', project));
 };

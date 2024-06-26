@@ -12,19 +12,21 @@ export class Story {
   public ownerUuid: string;
 
   constructor(
+    uuid: string,
     name: string,
     description: string,
     priority: Priority,
     status: Status,
+    dateOfCreation: Date,
     projectUuid: string,
     ownerUuid: string
   ) {
-    this.uuid = crypto.randomUUID();
+    this.uuid = uuid;
     this.name = name;
     this.description = description;
     this.priority = priority;
     this.status = status;
-    this.dateOfCreation = new Date();
+    this.dateOfCreation = dateOfCreation;
     this.projectUuid = projectUuid;
     this.ownerUuid = ownerUuid;
   }

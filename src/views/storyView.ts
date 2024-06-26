@@ -42,8 +42,8 @@ new Label('Done', 'done-label', 'stories-container-done');
 const modal = new Modal('add-form-modal', 'content-container');
 const storyForm = new StoryForm('story-form');
 
-storyForm.setOnSubmit((event, story: Story) => {
-  storiesApiHelper.create(story);
+storyForm.setOnSubmit(async (event, story: Story) => {
+  await storiesApiHelper.create(story);
   modal.close();
   location.reload();
 });
@@ -52,29 +52,42 @@ modal.setContent(storyForm.form);
 
 new HeaderLabel('Manage me', 'title-header', 'header-container');
 
-const currentProject = projectApiHelper.getActiveProject();
-new Label(
-  currentProject?.name ?? 'Project',
-  'project-name-label',
-  'header-container'
-);
+window.onload = async () => {
+  try {
+    const currentProject = await projectApiHelper.getActiveProject();
 
-window.onload = () => {
-  const activeProject = projectApiHelper.getActiveProject();
-  const stories = storiesApiHelper.getAllByProjectsUuid(activeProject?.uuid);
-  stories.forEach((story) => {
-    switch (story.status) {
-      case Status.ToDo:
-        new StoryItem('stories-container-todo', story);
-        break;
-      case Status.Doing:
-        new StoryItem('stories-container-doing', story);
-        break;
-      case Status.Done:
-        new StoryItem('stories-container-done', story);
-        break;
-      default:
-        break;
+    if (currentProject) {
+      const stories = await storiesApiHelper.getAllByProjectsUuid(
+        currentProject.uuid
+      );
+
+      console.log(stories);
+
+      stories.forEach((story) => {
+        switch (story.status) {
+          case Status.ToDo:
+            new StoryItem('stories-container-todo', story);
+            break;
+          case Status.Doing:
+            new StoryItem('stories-container-doing', story);
+            break;
+          case Status.Done:
+            new StoryItem('stories-container-done', story);
+            break;
+          default:
+            break;
+        }
+      });
+
+      new Label(
+        currentProject.name ?? 'Project',
+        'project-name-label',
+        'header-container'
+      );
+    } else {
+      console.error('No active project found');
     }
-  });
+  } catch (error) {
+    console.error('Error fetching stories:', error);
+  }
 };

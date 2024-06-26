@@ -1,62 +1,107 @@
 import { Project } from '../models/project';
+import { db } from '../helpers/firebase';
 import { IApiHelper } from './iApiHelper';
+import {
+  collection,
+  addDoc,
+  getDocs,
+  setDoc,
+  doc,
+  deleteDoc,
+  getDoc,
+} from 'firebase/firestore';
 
 export class ProjectsApiHelper implements IApiHelper<Project> {
-  private readonly STORAGE_KEY = 'Projects';
+  private readonly STORAGE_KEY = 'projects';
 
-  private getProjectsFromLocalStorage(): Project[] {
-    const projectsJSON = localStorage.getItem(this.STORAGE_KEY);
-    if (projectsJSON) {
-      try {
-        return JSON.parse(projectsJSON);
-      } catch (error) {
-        console.error('Error parsing projects from local storage:', error);
-        return [];
+  async get(uuid: string): Promise<Project | undefined> {
+    try {
+      const projectRef = doc(db, this.STORAGE_KEY, uuid);
+      const projectDoc = await getDoc(projectRef);
+
+      if (projectDoc.exists()) {
+        const projectData = projectDoc.data() as Project;
+        return new Project(
+          projectData.uuid,
+          projectData.name,
+          projectData.description,
+          projectData.isActive
+        );
+      } else {
+        console.error('Project not found:', uuid);
+        return undefined;
       }
-    } else {
+    } catch (error) {
+      console.error('Error fetching project:', error);
+      return undefined;
+    }
+  }
+
+  async getAll(): Promise<Project[]> {
+    try {
+      const projectsRef = collection(db, this.STORAGE_KEY);
+      const projectsSnapshot = await getDocs(projectsRef);
+      const projectList = projectsSnapshot.docs.map((doc) => {
+        const data = doc.data();
+        return new Project(
+          data.uuid,
+          data.name,
+          data.description,
+          data.isActive
+        );
+      });
+      return projectList;
+    } catch (error) {
+      console.error('Error fetching projects:', error);
       return [];
     }
   }
 
-  get(uuid: string): Project | undefined {
-    const projects: Project[] = this.getProjectsFromLocalStorage();
-    return projects.find((x) => x.uuid == uuid);
-  }
-
-  getAll(): Project[] {
-    return this.getProjectsFromLocalStorage();
-  }
-
-  create(data: Project) {
-    const projects: Project[] = this.getProjectsFromLocalStorage();
-    projects.push(data);
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(projects));
-  }
-
-  update(data: Project) {
-    const projects: Project[] = this.getProjectsFromLocalStorage();
-    const index = projects.findIndex((x) => x.uuid == data.uuid);
-    if (index !== -1) {
-      projects[index] = data;
-      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(projects));
-    } else {
-      console.error('Project not found for update:', data.uuid);
+  async create(data: Project) {
+    try {
+      await setDoc(doc(db, this.STORAGE_KEY, data.uuid), {
+        uuid: data.uuid,
+        name: data.name,
+        description: data.description,
+        isActive: data.isActive,
+      });
+      console.log('Project created successfully');
+    } catch (error) {
+      console.error('Error creating project: ', error);
     }
   }
 
-  delete(uuid: string): void {
-    const projects: Project[] = this.getProjectsFromLocalStorage();
-    const index = projects.findIndex((x) => x.uuid == uuid);
-    if (index !== -1) {
-      projects.splice(index, 1);
-      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(projects));
-    } else {
-      console.error('Project not found for deletion:', uuid);
+  async update(data: Project) {
+    try {
+      const projectRef = doc(db, this.STORAGE_KEY, data.uuid);
+      await setDoc(
+        projectRef,
+        {
+          uuid: data.uuid,
+          name: data.name,
+          description: data.description,
+          isActive: data.isActive,
+        },
+        { merge: true }
+      );
+      console.log('Project updated successfully');
+    } catch (error) {
+      console.error('Error updating project:', error);
     }
   }
 
-  getActiveProject(): Project | undefined {
-    const projects: Project[] = this.getProjectsFromLocalStorage();
+  async delete(uuid: string): Promise<void> {
+    try {
+      const projectRef = doc(db, this.STORAGE_KEY, uuid);
+      await deleteDoc(projectRef);
+      console.log('Project deleted successfully');
+    } catch (error) {
+      console.error('Error deleting project:', error);
+    }
+  }
+
+  async getActiveProject(): Promise<Project | undefined> {
+    const projects: Project[] = await this.getAll();
     return projects.find((x) => x.isActive == true);
   }
 }

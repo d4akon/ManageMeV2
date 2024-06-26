@@ -35,6 +35,7 @@ class ProjectForm {
     this.form.onsubmit = (event: Event) => {
       event.preventDefault();
       const project = new Project(
+        crypto.randomUUID(),
         this.projectInput.value,
         this.descInput.value
       );
