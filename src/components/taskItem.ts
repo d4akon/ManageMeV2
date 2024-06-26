@@ -55,8 +55,8 @@ class TaskItem {
     }
   }
 
-  private deleteTask(task: Task): void {
-    this.taskApiHelper.delete(task.uuid);
+  private async deleteTask(task: Task) {
+    await this.taskApiHelper.delete(task.uuid);
     this.element.remove();
   }
 
@@ -64,9 +64,9 @@ class TaskItem {
     const editForm = new TaskForm('edit-task-form', task.storyUuid);
     editForm.setTaskData(task);
 
-    editForm.setOnSubmit((event: Event, updatedTask: Task) => {
+    editForm.setOnSubmit(async (event: Event, updatedTask: Task) => {
       updatedTask.uuid = task.uuid;
-      this.taskApiHelper.update(updatedTask);
+      await this.taskApiHelper.update(updatedTask);
       this.modal.close();
       location.reload();
     });
@@ -75,10 +75,10 @@ class TaskItem {
     this.modal.open();
   }
 
-  private finishTask(task: Task): void {
+  private async finishTask(task: Task) {
     task.status = Status.Done;
     task.dateOfFinish = new Date();
-    this.taskApiHelper.update(task);
+    await this.taskApiHelper.update(task);
     location.reload();
   }
 }

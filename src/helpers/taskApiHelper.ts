@@ -1,62 +1,134 @@
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+} from 'firebase/firestore';
 import { Task } from '../models/task';
 import { IApiHelper } from './iApiHelper';
+import { db } from './firebase';
 
 export class TaskApiHelper implements IApiHelper<Task> {
-  private readonly STORAGE_KEY = 'Tasks';
+  private readonly STORAGE_KEY = 'tasks';
 
-  private getTasksFromLocalStorage(): Task[] {
-    const tasksJSON = localStorage.getItem(this.STORAGE_KEY);
-    if (tasksJSON) {
-      try {
-        return JSON.parse(tasksJSON);
-      } catch (error) {
-        console.error('Error parsing tasks from local storage:', error);
-        return [];
+  async get(uuid: string): Promise<Task | undefined> {
+    try {
+      const taskRef = doc(db, this.STORAGE_KEY, uuid);
+      const taskDoc = await getDoc(taskRef);
+
+      if (taskDoc.exists()) {
+        const taskData = taskDoc.data() as Task;
+        return new Task(
+          taskData.uuid,
+          taskData.name,
+          taskData.description,
+          taskData.hoursToComplete,
+          taskData.priority,
+          taskData.storyUuid,
+          taskData.status,
+          taskData.dateOfCreation,
+          taskData.dateOfStart,
+          taskData.dateOfFinish,
+          taskData.assignedUserUuid
+        );
+      } else {
+        console.error('Task not found:', uuid);
+        return undefined;
       }
-    } else {
+    } catch (error) {
+      console.error('Error fetching Task:', error);
+      return undefined;
+    }
+  }
+
+  async getAll(): Promise<Task[]> {
+    try {
+      const tasksRef = collection(db, this.STORAGE_KEY);
+      const tasksSnapshot = await getDocs(tasksRef);
+      const tasksList = tasksSnapshot.docs.map((doc) => {
+        const taskData = doc.data();
+        return new Task(
+          taskData.uuid,
+          taskData.name,
+          taskData.description,
+          taskData.hoursToComplete,
+          taskData.priority,
+          taskData.storyUuid,
+          taskData.status,
+          taskData.dateOfCreation,
+          taskData.dateOfStart,
+          taskData.dateOfFinish,
+          taskData.assignedUserUuid
+        );
+      });
+      return tasksList;
+    } catch (error) {
+      console.error('Error fetching tasks:', error);
       return [];
     }
   }
 
-  get(uuid: string): Task | undefined {
-    const tasks: Task[] = this.getTasksFromLocalStorage();
-    return tasks.find((x) => x.uuid == uuid);
-  }
-
-  getAll(): Task[] {
-    return this.getTasksFromLocalStorage();
-  }
-
-  create(data: Task) {
-    const tasks: Task[] = this.getTasksFromLocalStorage();
-    tasks.push(data);
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(tasks));
-  }
-
-  update(data: Task) {
-    const tasks: Task[] = this.getTasksFromLocalStorage();
-    const index = tasks.findIndex((x) => x.uuid == data.uuid);
-    if (index !== -1) {
-      tasks[index] = data;
-      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(tasks));
-    } else {
-      console.error('Task not found for update:', data.uuid);
+  async create(data: Task) {
+    try {
+      await setDoc(doc(db, this.STORAGE_KEY, data.uuid), {
+        uuid: data.uuid,
+        name: data.name,
+        description: data.description,
+        hoursToComplete: data.hoursToComplete,
+        priority: data.priority,
+        storyUuid: data.storyUuid,
+        status: data.status,
+        dateOfCreation: data.dateOfCreation,
+        dateOfStart: data.dateOfStart,
+        dateOfFinish: data.dateOfFinish,
+        assignedUserUuid: data.assignedUserUuid,
+      });
+      console.log('Task created successfully');
+    } catch (error) {
+      console.error('Error creating story: ', error);
     }
   }
 
-  delete(uuid: string): void {
-    const tasks: Task[] = this.getTasksFromLocalStorage();
-    const index = tasks.findIndex((x) => x.uuid == uuid);
-    if (index !== -1) {
-      tasks.splice(index, 1);
-      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(tasks));
-    } else {
-      console.error('Task not found for deletion:', uuid);
+  async update(data: Task) {
+    try {
+      const taskRef = doc(db, this.STORAGE_KEY, data.uuid);
+      await setDoc(
+        taskRef,
+        {
+          uuid: data.uuid,
+          name: data.name,
+          description: data.description,
+          hoursToComplete: data.hoursToComplete,
+          priority: data.priority,
+          storyUuid: data.storyUuid,
+          status: data.status,
+          dateOfCreation: data.dateOfCreation,
+          dateOfStart: data.dateOfStart,
+          dateOfFinish: data.dateOfFinish,
+          assignedUserUuid: data.assignedUserUuid,
+        },
+        { merge: true }
+      );
+      console.log('Task updated successfully');
+    } catch (error) {
+      console.error('Error updating Task:', error);
     }
   }
 
-  getAllByStoryUuid(uuid: string | null): Task[] {
-    const tasks: Task[] = this.getTasksFromLocalStorage();
+  async delete(uuid: string) {
+    try {
+      const taskRef = doc(db, this.STORAGE_KEY, uuid);
+      await deleteDoc(taskRef);
+      console.log('Task deleted successfully');
+    } catch (error) {
+      console.error('Task deleting story:', error);
+    }
+  }
+
+  async getAllByStoryUuid(uuid: string | null): Promise<Task[]> {
+    const tasks = await this.getAll();
     return tasks.filter((task) => task.storyUuid == uuid);
   }
 }

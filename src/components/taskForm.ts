@@ -88,11 +88,14 @@ class TaskForm {
     this.form.onsubmit = (event: Event) => {
       event.preventDefault();
       const task = new Task(
+        crypto.randomUUID(),
         this.nameInput.value,
         this.descriptionInput.value,
         Number(this.hoursToCompleteInput.value),
         Priority[this.prioritySelect.value as keyof typeof Priority],
         this.storyUuid,
+        Status.ToDo,
+        new Date(),
         null,
         null,
         null

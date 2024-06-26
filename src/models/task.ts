@@ -9,29 +9,32 @@ export class Task {
   public priority: Priority;
   public storyUuid: string | null;
   public status: Status;
-  public readonly dateOfCreation: Date;
+  public dateOfCreation: Date;
   public dateOfStart: Date | null;
   public dateOfFinish: Date | null;
   public assignedUserUuid: string | null;
 
   constructor(
+    uuid: string,
     name: string,
     description: string,
     hoursToComplete: number,
     priority: Priority,
     storyUuid: string | null,
+    status: Status,
+    dateOfCreation: Date,
     dateOfStart: Date | null,
     dateOfFinish: Date | null,
     assignedUserUuid: string | null
   ) {
-    this.uuid = crypto.randomUUID();
+    this.uuid = uuid;
     this.name = name;
     this.description = description;
     this.hoursToComplete = hoursToComplete;
     this.priority = priority;
     this.storyUuid = storyUuid;
-    this.status = Status.ToDo;
-    this.dateOfCreation = new Date();
+    this.status = status;
+    this.dateOfCreation = dateOfCreation;
     this.dateOfStart = null;
     this.dateOfFinish = null;
     this.assignedUserUuid = assignedUserUuid;

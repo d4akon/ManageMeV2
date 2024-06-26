@@ -17,8 +17,8 @@ const storyId = urlParams.get('storyId');
 const taskApiHelper = new TaskApiHelper();
 const projectApiHelper = new ProjectsApiHelper();
 
-new Container('header-container', 'story-page');
-new Container('content-container', 'story-page');
+new Container('header-container', 'task-page');
+new Container('content-container', 'task-page');
 
 new BackButton('Go to Story', 'header-container');
 
@@ -40,8 +40,8 @@ new Label('Done', 'done-label', 'tasks-container-done');
 const modal = new Modal('add-form-modal', 'content-container');
 const taskForm = new TaskForm('task-form', storyId);
 
-taskForm.setOnSubmit((event, task: Task) => {
-  taskApiHelper.create(task);
+taskForm.setOnSubmit(async (event, task: Task) => {
+  await taskApiHelper.create(task);
   modal.close();
   location.reload();
 });
@@ -50,15 +50,15 @@ modal.setContent(taskForm.form);
 
 new HeaderLabel('Manage me', 'title-header', 'header-container');
 
-const currentProject = projectApiHelper.getActiveProject();
-new Label(
-  currentProject?.name ?? 'Project',
-  'project-name-label',
-  'header-container'
-);
+window.onload = async () => {
+  const currentProject = await projectApiHelper.getActiveProject();
+  new Label(
+    currentProject?.name ?? 'Project',
+    'project-name-label',
+    'header-container'
+  );
 
-window.onload = () => {
-  const tasks = taskApiHelper.getAllByStoryUuid(storyId);
+  const tasks = await taskApiHelper.getAllByStoryUuid(storyId);
   tasks.forEach((task) => {
     switch (task.status) {
       case Status.ToDo:
