@@ -2,7 +2,6 @@ import { Label } from '../components/Label';
 import AddButton from '../components/addButton';
 import BackButton from '../components/backButton';
 import Container from '../components/container';
-import HeaderLabel from '../components/headerLabel';
 import Modal from '../components/modal';
 import TaskForm from '../components/taskForm';
 import TaskItem from '../components/taskItem';

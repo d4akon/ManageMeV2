@@ -112,7 +112,7 @@ class StoryForm {
   }
 
   public async setStoryData(story: Story): Promise<void> {
-    await this.ownerSelectPopulated; // Wait for the ownerSelect to be populated
+    await this.ownerSelectPopulated;
 
     this.nameInput.value = story.name;
     this.descriptionInput.value = story.description;

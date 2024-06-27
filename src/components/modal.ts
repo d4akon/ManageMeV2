@@ -14,7 +14,7 @@ class Modal {
 
     const modalContent = document.createElement('div');
     modalContent.className = 'modal-content';
-    modalContent.appendChild(this.closeButton); // Add the close button inside modal content
+    modalContent.appendChild(this.closeButton);
 
     this.overlay.appendChild(modalContent);
 

@@ -13,7 +13,7 @@ body {
 
 .back-button {
   position: absolute;
-  top: 0px; /* Adjust as needed */
+  top: 0px;
   left: 0;
   background-color: #007bff;
   color: white;
