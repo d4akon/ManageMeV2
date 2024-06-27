@@ -62,7 +62,7 @@ body {
 
 #welcome-label {
   float: left;
-  display: block;
+  position: absolute;
   color: #3165eb;
   margin-right: 10px;
   margin-bottom: 10px;

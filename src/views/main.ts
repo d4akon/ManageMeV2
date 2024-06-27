@@ -54,7 +54,7 @@ new LogoutButton('logout-button', 'title-header');
 const currentUser = UserService.getLoggedInUser();
 
 if (currentUser) {
-  const welcomeMessage = `Welcome ${currentUser?.name} ${currentUser?.surname}!`;
+  const welcomeMessage = `Welcome ${currentUser?.name} ${currentUser?.surname}! Choose your active project.`;
   new Label(welcomeMessage, 'welcome-label', 'header-container');
 }
 

@@ -2,11 +2,15 @@ import { Story } from '../models/story';
 import { StoriesApiHelper } from '../helpers/storiesApiHelper';
 import Modal from './modal';
 import StoryForm from './storyForm';
+import { Priority } from '../enums/priority';
+import { Role } from '../enums/role';
+import { UserApiHelper } from '../helpers/userApiHelper';
 
 class StoryItem {
   private element: HTMLElement;
   private storiesApiHelper: StoriesApiHelper;
   private modal: Modal;
+  private userApiHelper: UserApiHelper = new UserApiHelper();
 
   constructor(parentId: string, story: Story) {
     this.storiesApiHelper = new StoriesApiHelper();
@@ -24,6 +28,15 @@ class StoryItem {
     desc.className = 'story-item-desc';
     desc.textContent = story.description;
 
+    const priority = document.createElement('p');
+    priority.className = 'story-item-priority';
+    priority.textContent = `Priority: ${Priority[story.priority]}`;
+
+    const assignedUser = document.createElement('p');
+    assignedUser.className = 'story-item-assigned-user';
+
+    this.setUserDetails(story.ownerUuid, assignedUser);
+
     const deleteButton = document.createElement('button');
     deleteButton.className = 'story-item-delete';
     deleteButton.textContent = 'x';
@@ -37,6 +50,8 @@ class StoryItem {
     this.element.appendChild(deleteButton);
     this.element.appendChild(title);
     this.element.appendChild(desc);
+    this.element.appendChild(priority);
+    this.element.appendChild(assignedUser);
     this.element.appendChild(editButton);
 
     const parent: HTMLElement | null = document.getElementById(parentId);
@@ -44,6 +59,20 @@ class StoryItem {
       parent.appendChild(this.element);
     } else {
       console.error(`Parent element with id "${parentId}" not found`);
+    }
+  }
+
+  private async setUserDetails(
+    ownerUuid: string,
+    assignedUserElement: HTMLElement
+  ): Promise<void> {
+    try {
+      const user = await this.userApiHelper.get(ownerUuid);
+      if (user)
+        assignedUserElement.textContent = `Assigned to: ${user.name} ${user.surname}`;
+    } catch (error) {
+      console.error('Failed to fetch user details', error);
+      assignedUserElement.textContent = 'Assigned to: Unknown';
     }
   }
 
