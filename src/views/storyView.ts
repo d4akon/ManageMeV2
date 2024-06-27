@@ -50,8 +50,6 @@ storyForm.setOnSubmit(async (event, story: Story) => {
 
 modal.setContent(storyForm.form);
 
-new HeaderLabel('Manage me', 'title-header', 'header-container');
-
 window.onload = async () => {
   try {
     const currentProject = await projectApiHelper.getActiveProject();
