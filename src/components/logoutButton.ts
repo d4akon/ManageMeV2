@@ -8,7 +8,7 @@ export class LogoutButton {
     this.button.textContent = 'Logout';
     this.button.id = idName;
     this.button.onclick = this.logoutUser.bind(this);
-    if (!UserService.isLoggedIn()) this.button.style.visibility = 'hidden';
+    if (!UserService.isLoggedIn()) this.button.style.display = 'none';
 
     const parent: HTMLElement | null = document.getElementById(parentId);
     if (parent) {

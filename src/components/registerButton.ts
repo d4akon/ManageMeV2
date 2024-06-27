@@ -8,7 +8,7 @@ export class RegisterButton {
     this.button.textContent = 'Register';
     this.button.id = idName;
     this.button.onclick = this.navigateToRegisterPage.bind(this);
-    if (UserService.isLoggedIn()) this.button.style.visibility = 'hidden';
+    if (UserService.isLoggedIn()) this.button.style.display = 'none';
 
     const parent: HTMLElement | null = document.getElementById(parentId);
     if (parent) {

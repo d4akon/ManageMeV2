@@ -1,47 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+/* Global styles */
+body {
+  font-family: 'Roboto', sans-serif; /* Apply Roboto font to the entire body */
+  background-color: #f0f0f0; /* Light gray background */
+  margin: 0; /* Remove default body margin */
+  padding: 0; /* Remove default body padding */
+}
+
 #header-container {
   margin-bottom: 20px;
+  padding: 10px;
+  text-align: center;
+  background-color: #ffffff;
+  border-bottom: 1px solid #ccc;
 }
 
 #title-header {
-  display: blocks;
+  display: block;
   color: #3165eb;
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+#login-button,
+#register-button,
+#logout-button,
+#add-project-btn {
+  background-color: #3165eb;
+  border: 0;
+  height: 30px;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 0 15px;
+  margin-right: 10px;
 }
 
 #login-button {
-  background-color: #3165eb;
-  border: 0;
-  height: 30px;
   float: right;
-  width: 50px;
-  color: #ffff;
-  font-weight: bold;
-}
-
-#logout-button {
-  background-color: #3165eb;
-  border: 0;
-  height: 30px;
-  float: right;
-  width: 60px;
-  color: #ffff;
-  font-weight: bold;
+  width: 80px;
 }
 
 #register-button {
-  background-color: #3165eb;
-  border: 0;
-  margin-right: 10px;
-  height: 30px;
   float: right;
-  width: 70px;
-  color: #ffff;
-  font-weight: bold;
+  width: 80px;
+  margin-right: 10px;
+}
+
+#logout-button {
+  float: right;
+  width: 80px;
+  margin-right: 10px;
+}
+
+#add-project-btn {
+  margin-left: 20px;
 }
 
 #welcome-label {
-  float: right;
-  display: inline;
+  float: left;
+  display: block;
   color: #3165eb;
+  margin-right: 10px;
+  margin-bottom: 10px;
 }
 
 #projects-container {
@@ -51,16 +75,25 @@
 }
 
 .project-item {
-  padding: 10px;
+  padding: 15px;
   margin: 10px;
-  background-color: rgb(157, 157, 226);
+  background-color: #f0f0f0;
   display: block;
-
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, transform 0.2s ease;
   position: relative;
 }
 
+.project-item:hover {
+  background-color: #e0e0e0;
+  transform: translateY(-2px);
+}
+
 .project-item-title {
-  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 8px;
 }
 
 .project-item-title:hover {
@@ -68,22 +101,32 @@
 }
 
 .project-item-desc {
-  margin: 5px 0;
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 10px;
 }
 
 .project-item-delete {
-  float: right;
-  border: 0;
+  position: absolute;
+  top: 5px;
+  right: 5px;
   background-color: red;
   color: white;
+  border: 0;
+  padding: 5px 10px;
   font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .project-item-edit {
-  border: 0;
   background-color: #3165eb;
   color: white;
+  border: 0;
+  padding: 5px 10px;
   font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 #add-project-btn {
