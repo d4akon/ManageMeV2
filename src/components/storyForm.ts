@@ -14,6 +14,7 @@ class StoryForm {
   private ownerSelect: HTMLSelectElement;
   private usersApiHelper: UserApiHelper;
   private projectApiHelper: ProjectsApiHelper;
+  private ownerSelectPopulated: Promise<void>;
 
   constructor(idName: string) {
     this.form = document.createElement('form');
@@ -57,7 +58,7 @@ class StoryForm {
 
     this.usersApiHelper = new UserApiHelper();
     this.projectApiHelper = new ProjectsApiHelper();
-    this.populateOwnerSelect();
+    this.ownerSelectPopulated = this.populateOwnerSelect();
 
     const submitButton = document.createElement('button');
     submitButton.type = 'submit';
@@ -110,11 +111,15 @@ class StoryForm {
     };
   }
 
-  public setStoryData(story: Story): void {
+  public async setStoryData(story: Story): Promise<void> {
+    await this.ownerSelectPopulated; // Wait for the ownerSelect to be populated
+
     this.nameInput.value = story.name;
     this.descriptionInput.value = story.description;
-    this.prioritySelect.value = Priority[story.priority];
-    this.statusSelect.value = Status[story.status];
+    this.prioritySelect.value = Priority[
+      story.priority
+    ] as keyof typeof Priority;
+    this.statusSelect.value = Status[story.status] as keyof typeof Status;
     this.ownerSelect.value = story.ownerUuid;
   }
 
