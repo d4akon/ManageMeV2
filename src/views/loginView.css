@@ -1,3 +1,16 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-color: #f0f0f0;
+}
+
+.container {
+  position: relative;
+}
+
 .login-form {
   background: white;
   padding: 20px;
@@ -12,6 +25,10 @@
   margin-bottom: 10px;
   padding: 10px;
   font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.3s;
 }
 
 .login-form button {
@@ -29,16 +46,22 @@
 }
 
 .back-button {
+  position: absolute;
+  top: 0px; /* Adjust as needed */
+  left: 0;
   background-color: #007bff;
   color: white;
   border: none;
   padding: 10px 20px;
   text-align: center;
   text-decoration: none;
-  display: block;
   font-size: 16px;
   margin: 4px 2px;
   cursor: pointer;
   border-radius: 4px;
   transition: background-color 0.3s;
+}
+
+.back-button:hover {
+  background-color: #0056b3;
 }
