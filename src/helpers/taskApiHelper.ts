@@ -48,7 +48,7 @@ export class TaskApiHelper implements IApiHelper<Task> {
       const tasksRef = collection(db, this.STORAGE_KEY);
       const tasksSnapshot = await getDocs(tasksRef);
       const tasksList = tasksSnapshot.docs.map((doc) => {
-        const taskData = doc.data();
+        const taskData = doc.data() as Task;
         return new Task(
           taskData.uuid,
           taskData.name,

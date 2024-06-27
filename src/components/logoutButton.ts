@@ -1,14 +1,14 @@
 import { UserService } from '../services/userService';
 
-export class LoginButton {
+export class LogoutButton {
   private button: HTMLButtonElement;
 
   constructor(idName: string, parentId: string) {
     this.button = document.createElement('button');
-    this.button.textContent = 'Login';
+    this.button.textContent = 'Logout';
     this.button.id = idName;
-    this.button.onclick = this.navigateToLoginPage.bind(this);
-    if (UserService.isLoggedIn()) this.button.style.visibility = 'hidden';
+    this.button.onclick = this.logoutUser.bind(this);
+    if (!UserService.isLoggedIn()) this.button.style.visibility = 'hidden';
 
     const parent: HTMLElement | null = document.getElementById(parentId);
     if (parent) {
@@ -18,7 +18,8 @@ export class LoginButton {
     }
   }
 
-  private navigateToLoginPage(): void {
-    window.location.href = `src/views/loginView.html`;
+  private async logoutUser() {
+    await UserService.logoutUser();
+    location.reload();
   }
 }

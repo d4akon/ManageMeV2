@@ -1,10 +1,15 @@
+import BackButton from '../components/backButton';
 import LoginForm from '../components/loginForm';
+import { UserService } from '../services/userService';
 
-const loginForm = new LoginForm();
+const backButton = new BackButton('Go back', 'login-page');
 
-loginForm.setOnSubmit((event, username, password) => {
-  console.log('Username:', username);
-  console.log('Password:', password);
+const loginForm = new LoginForm('login-page');
+
+loginForm.setOnSubmit(async (event, email, password) => {
+  if (await UserService.loginUser(email, password)) {
+    window.history.back();
+  } else {
+    alert('wrong credentials');
+  }
 });
-
-document.getElementById('login-page')?.appendChild(loginForm.form);

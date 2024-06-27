@@ -1,57 +1,104 @@
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+} from 'firebase/firestore';
 import { User } from '../models/user';
 import { IApiHelper } from './iApiHelper';
+import { db } from './firebase';
 
 export class UserApiHelper implements IApiHelper<User> {
-  private readonly STORAGE_KEY = 'Users';
+  private readonly STORAGE_KEY = 'users';
 
-  private getUsersFromLocalStorage(): User[] {
-    const usersJSON = localStorage.getItem(this.STORAGE_KEY);
-    if (usersJSON) {
-      try {
-        return JSON.parse(usersJSON);
-      } catch (error) {
-        console.error('Error parsing users from local storage:', error);
-        return [];
+  async get(uuid: string): Promise<User | undefined> {
+    try {
+      const userRef = doc(db, this.STORAGE_KEY, uuid);
+      const userDoc = await getDoc(userRef);
+
+      if (userDoc.exists()) {
+        const userData = userDoc.data() as User;
+        return new User(
+          userData.uuid,
+          userData.name,
+          userData.surname,
+          userData.email,
+          userData.role
+        );
+      } else {
+        console.error('User not found:', uuid);
+        return undefined;
       }
-    } else {
+    } catch (error) {
+      console.error('Error fetching Users:', error);
+    }
+  }
+
+  async getAll(): Promise<User[]> {
+    try {
+      const usersRef = collection(db, this.STORAGE_KEY);
+      const usersSnapshot = await getDocs(usersRef);
+      const usersList = usersSnapshot.docs.map((doc) => {
+        const userData = doc.data() as User;
+        return new User(
+          userData.uuid,
+          userData.name,
+          userData.surname,
+          userData.email,
+          userData.role
+        );
+      });
+      return usersList;
+    } catch (error) {
+      console.error('Error fetching users:', error);
       return [];
     }
   }
 
-  get(uuid: string): User | undefined {
-    const users: User[] = this.getUsersFromLocalStorage();
-    return users.find((x) => x.uuid == uuid);
-  }
-
-  getAll(): User[] {
-    return this.getUsersFromLocalStorage();
-  }
-
-  create(data: User) {
-    const users: User[] = this.getUsersFromLocalStorage();
-    users.push(data);
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(users));
-  }
-
-  update(data: User) {
-    const users: User[] = this.getUsersFromLocalStorage();
-    const index = users.findIndex((x) => x.uuid == data.uuid);
-    if (index !== -1) {
-      users[index] = data;
-      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(users));
-    } else {
-      console.error('User not found for update:', data.uuid);
+  async create(data: User) {
+    try {
+      await setDoc(doc(db, this.STORAGE_KEY, data.uuid), {
+        uuid: data.uuid,
+        name: data.name,
+        surname: data.surname,
+        email: data.email,
+        role: data.role,
+      });
+      console.log('User created successfully');
+    } catch (error) {
+      console.error('Error creating user: ', error);
     }
   }
 
-  delete(uuid: string): void {
-    const users: User[] = this.getUsersFromLocalStorage();
-    const index = users.findIndex((x) => x.uuid == uuid);
-    if (index !== -1) {
-      users.splice(index, 1);
-      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(users));
-    } else {
-      console.error('User not found for deletion:', uuid);
+  async update(data: User) {
+    try {
+      const userRef = doc(db, this.STORAGE_KEY, data.uuid);
+      await setDoc(
+        userRef,
+        {
+          uuid: data.uuid,
+          name: data.name,
+          surname: data.surname,
+          email: data.email,
+          role: data.role,
+        },
+        { merge: true }
+      );
+      console.log('User updated successfully');
+    } catch (error) {
+      console.error('Error updating User:', error);
+    }
+  }
+
+  async delete(uuid: string) {
+    try {
+      const userRef = doc(db, this.STORAGE_KEY, uuid);
+      await deleteDoc(userRef);
+      console.log('User deleted successfully');
+    } catch (error) {
+      console.error('User deleting story:', error);
     }
   }
 }

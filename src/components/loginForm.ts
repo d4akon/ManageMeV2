@@ -1,17 +1,17 @@
 class LoginForm {
   public form: HTMLFormElement;
-  private usernameInput: HTMLInputElement;
+  private emailInput: HTMLInputElement;
   private passwordInput: HTMLInputElement;
 
-  constructor() {
+  constructor(parentId: string) {
     this.form = document.createElement('form');
     this.form.className = 'login-form';
 
-    this.usernameInput = document.createElement('input');
-    this.usernameInput.type = 'text';
-    this.usernameInput.placeholder = 'Username';
-    this.usernameInput.name = 'username';
-    this.usernameInput.required = true;
+    this.emailInput = document.createElement('input');
+    this.emailInput.type = 'email';
+    this.emailInput.placeholder = 'Email';
+    this.emailInput.name = 'email';
+    this.emailInput.required = true;
 
     this.passwordInput = document.createElement('input');
     this.passwordInput.type = 'password';
@@ -23,19 +23,26 @@ class LoginForm {
     submitButton.type = 'submit';
     submitButton.textContent = 'Login';
 
-    this.form.appendChild(this.usernameInput);
+    this.form.appendChild(this.emailInput);
     this.form.appendChild(this.passwordInput);
     this.form.appendChild(submitButton);
+
+    const parent: HTMLElement | null = document.getElementById(parentId);
+    if (parent) {
+      parent.appendChild(this.form);
+    } else {
+      console.error(`Parent element with id "${parentId}" not found.`);
+    }
   }
 
   public setOnSubmit(
-    onSubmitHandler: (event: Event, username: string, password: string) => void
+    onSubmitHandler: (event: Event, email: string, password: string) => void
   ): void {
     this.form.onsubmit = (event: Event) => {
       event.preventDefault();
-      const username = this.usernameInput.value;
+      const email = this.emailInput.value;
       const password = this.passwordInput.value;
-      onSubmitHandler(event, username, password);
+      onSubmitHandler(event, email, password);
     };
   }
 }

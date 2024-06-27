@@ -1,13 +1,13 @@
 import { UserService } from '../services/userService';
 
-export class LoginButton {
+export class RegisterButton {
   private button: HTMLButtonElement;
 
   constructor(idName: string, parentId: string) {
     this.button = document.createElement('button');
-    this.button.textContent = 'Login';
+    this.button.textContent = 'Register';
     this.button.id = idName;
-    this.button.onclick = this.navigateToLoginPage.bind(this);
+    this.button.onclick = this.navigateToRegisterPage.bind(this);
     if (UserService.isLoggedIn()) this.button.style.visibility = 'hidden';
 
     const parent: HTMLElement | null = document.getElementById(parentId);
@@ -18,7 +18,7 @@ export class LoginButton {
     }
   }
 
-  private navigateToLoginPage(): void {
-    window.location.href = `src/views/loginView.html`;
+  private navigateToRegisterPage(): void {
+    window.location.href = `src/views/registerView.html`;
   }
 }

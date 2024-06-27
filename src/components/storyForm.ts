@@ -71,8 +71,8 @@ class StoryForm {
     this.form.appendChild(submitButton);
   }
 
-  private populateOwnerSelect(): void {
-    const users = this.usersApiHelper.getAll();
+  private async populateOwnerSelect() {
+    const users = await this.usersApiHelper.getAll();
     users.forEach((user) => {
       const option = document.createElement('option');
       option.value = user.uuid;

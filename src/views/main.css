@@ -17,6 +17,27 @@
   font-weight: bold;
 }
 
+#logout-button {
+  background-color: #3165eb;
+  border: 0;
+  height: 30px;
+  float: right;
+  width: 60px;
+  color: #ffff;
+  font-weight: bold;
+}
+
+#register-button {
+  background-color: #3165eb;
+  border: 0;
+  margin-right: 10px;
+  height: 30px;
+  float: right;
+  width: 70px;
+  color: #ffff;
+  font-weight: bold;
+}
+
 #welcome-label {
   float: right;
   display: inline;

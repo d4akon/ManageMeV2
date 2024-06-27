@@ -69,8 +69,8 @@ class TaskForm {
     this.form.appendChild(submitButton);
   }
 
-  private populateOwnerSelect(): void {
-    let users = this.usersApiHelper.getAll();
+  private async populateOwnerSelect() {
+    let users = await this.usersApiHelper.getAll();
     users = users.filter(
       (x) => x.role === Role.Developer || x.role === Role.Devops
     );
