@@ -48,8 +48,6 @@ taskForm.setOnSubmit(async (event, task: Task) => {
 
 modal.setContent(taskForm.form);
 
-new HeaderLabel('Manage me', 'title-header', 'header-container');
-
 window.onload = async () => {
   const currentProject = await projectApiHelper.getActiveProject();
   new Label(

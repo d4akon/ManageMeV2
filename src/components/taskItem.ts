@@ -1,16 +1,20 @@
 import { Status } from '../enums/status';
 import { TaskApiHelper } from '../helpers/taskApiHelper';
 import { Task } from '../models/task';
+import { UserApiHelper } from '../helpers/userApiHelper';
 import Modal from './modal';
 import TaskForm from './taskForm';
+import { Priority } from '../enums/priority';
 
 class TaskItem {
   private element: HTMLElement;
   private taskApiHelper: TaskApiHelper;
+  private userApiHelper: UserApiHelper;
   private modal: Modal;
 
   constructor(parentId: string, task: Task) {
     this.taskApiHelper = new TaskApiHelper();
+    this.userApiHelper = new UserApiHelper();
     this.modal = new Modal('edit-task-modal', 'content-container');
 
     this.element = document.createElement('div');
@@ -23,6 +27,18 @@ class TaskItem {
     const desc = document.createElement('p');
     desc.className = 'task-item-desc';
     desc.textContent = task.description;
+
+    const hours = document.createElement('p');
+    hours.className = 'task-item-hours';
+    hours.textContent = `Hours to complete: ${task.hoursToComplete + 'h'}`;
+
+    const priority = document.createElement('p');
+    priority.className = 'task-item-priority';
+    priority.textContent = `Priority: ${Priority[task.priority]}`;
+
+    const assignedUser = document.createElement('p');
+    assignedUser.className = 'task-item-assigned-user';
+    this.setUserDetails(task.assignedUserUuid, assignedUser);
 
     const deleteButton = document.createElement('button');
     deleteButton.className = 'task-item-delete';
@@ -44,6 +60,9 @@ class TaskItem {
     this.element.appendChild(deleteButton);
     this.element.appendChild(title);
     this.element.appendChild(desc);
+    this.element.appendChild(hours);
+    this.element.appendChild(priority);
+    this.element.appendChild(assignedUser);
     this.element.appendChild(editButton);
     if (task.assignedUserUuid) this.element.appendChild(finishButton);
 
@@ -52,6 +71,23 @@ class TaskItem {
       parent.appendChild(this.element);
     } else {
       console.error(`Parent element with id "${parentId}" not found`);
+    }
+  }
+
+  private async setUserDetails(
+    userUuid: string | null,
+    element: HTMLElement
+  ): Promise<void> {
+    if (userUuid) {
+      try {
+        const user = await this.userApiHelper.get(userUuid);
+        element.textContent = `Assigned to: ${user?.name} ${user?.surname}`;
+      } catch (error) {
+        console.error('Failed to fetch user details', error);
+        element.textContent = 'Assigned to: Unknown';
+      }
+    } else {
+      element.textContent = 'Assigned to: Not assigned';
     }
   }
 

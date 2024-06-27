@@ -1,29 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+/* Global styles */
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f0f0f0;
+  margin: 0;
+  padding: 0;
+}
+
 #header-container {
   margin-bottom: 20px;
+  padding: 10px;
+  text-align: center;
+  background-color: #ffffff;
+  border-bottom: 1px solid #ccc;
 }
 
 #tasks-container {
   display: flex;
   width: 100%;
   justify-content: space-between;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 #tasks-container-todo,
 #tasks-container-doing,
 #tasks-container-done {
-  background-color: #bbbcbe;
+  background-color: #f7f7f7;
   display: flex;
   width: 30%;
   flex-direction: column;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 #add-task-btn {
+  width: 130px;
+  margin-left: 20px;
+  float: left;
   background-color: #3165eb;
   border: 0;
   height: 30px;
-  width: 130px;
-  color: #ffff;
+  color: #fff;
   font-weight: bold;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 0 15px;
+  margin-right: 10px;
 }
 
 #title-header {
@@ -92,10 +119,41 @@ button:hover {
 .form-component > button {
   background-color: #3165eb;
   border: 0;
-  height: 20px;
-  width: 150px;
-  color: #ffff;
+  height: 30px;
+  width: 100%;
+  color: #fff;
   font-weight: bold;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 0 15px;
+  margin-right: 10px;
+}
+
+.form-component > input {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 15px;
+  transition: border-color 0.3s ease;
+}
+
+.form-component > select {
+  margin-bottom: 10px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.form-component > input:focus {
+  outline: none;
+  border-color: #3165eb;
+  box-shadow: 0 0 5px rgba(49, 101, 235, 0.5);
 }
 
 .back-button {
@@ -105,9 +163,9 @@ button:hover {
   padding: 10px 20px;
   text-align: center;
   text-decoration: none;
-  display: block;
   font-size: 16px;
   margin: 4px 2px;
+  display: block;
   cursor: pointer;
   border-radius: 4px;
   transition: background-color 0.3s;
@@ -115,21 +173,48 @@ button:hover {
 
 .back-button:hover {
   background-color: #0056b3;
-  cursor: pointer;
 }
 
 .task-item {
-  padding: 10px;
-  margin: 10px;
-  background-color: rgb(157, 157, 226);
+  padding: 15px;
+  margin-bottom: 10px;
+  background-color: #dfe4ea;
   display: block;
-
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, transform 0.2s ease;
   position: relative;
 }
 
+.task-item:hover {
+  background-color: #c8d1e0;
+  transform: translateY(-2px);
+}
+
 .task-item-title {
-  margin-top: 0;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
   cursor: pointer;
+}
+
+.task-item-description,
+.task-item-priority,
+.task-item-assigned-user,
+.task-item-hours {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.task-item-priority,
+.task-item-hours {
+  color: #333;
+  font-weight: bold;
+}
+
+.task-item-assigned-user {
+  color: #333;
 }
 
 .task-item-description {
@@ -137,24 +222,41 @@ button:hover {
 }
 
 .task-item-delete {
-  float: right;
-  border: 0;
+  position: absolute;
+  top: 5px;
+  right: 5px;
   background-color: red;
   color: white;
+  border: 0;
+  padding: 5px 10px;
   font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
 }
 #task-item-edit {
-  border: 0;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
   background-color: #3165eb;
   color: white;
+  border: 0;
+  padding: 5px 10px;
   font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
 }
 #task-item-finish {
-  float: right;
-  border: 0;
+  position: absolute;
+  bottom: 40px;
+  right: 10px;
   background-color: green;
   color: white;
   font-weight: bold;
+  border: 0;
+  padding: 5px 10px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 #edit-task-modal {
