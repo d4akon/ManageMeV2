@@ -167,10 +167,6 @@ body.dark-mode .story-item-assigned-user {
   margin-right: 10px;
 }
 
-body.dark-mode #add-story-btn {
-  background-color: #4a90e2;
-}
-
 #project-name-label {
   display: inline-block;
   font-weight: bold;

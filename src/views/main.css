@@ -62,13 +62,6 @@ body.dark-mode #title-header {
   margin-right: 10px;
 }
 
-body.dark-mode #login-button,
-body.dark-mode #register-button,
-body.dark-mode #logout-button,
-body.dark-mode #add-project-btn {
-  background-color: #4a90e2;
-}
-
 #login-button {
   position: absolute;
   right: 170px;
@@ -183,7 +176,7 @@ body.dark-mode .project-item-desc {
 #add-project-btn {
   background-color: #3165eb;
   border: 0;
-  height: 30px;
+  height: 40px;
   width: 130px;
   color: #ffff;
   font-weight: bold;
