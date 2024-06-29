@@ -7,12 +7,22 @@ body {
   padding: 0;
 }
 
+body.dark-mode {
+  background-color: #181818;
+  color: #ffffff;
+}
+
 #header-container {
   margin-bottom: 20px;
   padding: 10px;
   text-align: center;
   background-color: #ffffff;
   border-bottom: 1px solid #ccc;
+}
+
+body.dark-mode #header-container {
+  background-color: #333333;
+  border-bottom: 1px solid #555555;
 }
 
 #stories-container {
@@ -23,6 +33,11 @@ body {
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode #stories-container {
+  background-color: #282828;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
 #stories-container-todo,
@@ -45,6 +60,13 @@ body {
   color: #3165eb;
   margin-bottom: 10px;
   text-align: center;
+}
+
+body.dark-mode #stories-container-todo,
+body.dark-mode #stories-container-doing,
+body.dark-mode #stories-container-done {
+  background-color: #333333;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
 .story-item {
@@ -113,9 +135,26 @@ body {
   cursor: pointer;
 }
 
+body.dark-mode .story-item {
+  background-color: #333333;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  color: #ffffff;
+}
+
+body.dark-mode .story-item:hover {
+  background-color: #555555;
+}
+
+body.dark-mode .story-item-description,
+body.dark-mode .story-item-priority,
+body.dark-mode .story-item-assigned-user {
+  color: #ffff;
+}
+
 #add-story-btn {
   width: 130px;
   margin-left: 20px;
+  margin-bottom: 10px;
   float: left;
   background-color: #3165eb;
   border: 0;
@@ -126,6 +165,10 @@ body {
   border-radius: 5px;
   padding: 0 15px;
   margin-right: 10px;
+}
+
+body.dark-mode #add-story-btn {
+  background-color: #4a90e2;
 }
 
 #project-name-label {
@@ -177,6 +220,20 @@ button:hover {
   display: flex;
 }
 
+body.dark-mode .modal-content {
+  background-color: #333333;
+  color: #ffffff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-mode .modal-close-button {
+  color: #ffffff;
+}
+
+body.dark-mode .modal-overlay.show {
+  background: rgba(0, 0, 0, 0.8);
+}
+
 .form-component {
   display: flex;
   flex-direction: column;
@@ -226,6 +283,18 @@ button:hover {
   box-shadow: 0 0 5px rgba(49, 101, 235, 0.5);
 }
 
+body.dark-mode .form-component > input,
+body.dark-mode .form-component > select {
+  background-color: #333333;
+  color: #ffffff;
+  border-color: #555555;
+}
+
+body.dark-mode .form-component > input:focus,
+body.dark-mode .form-component > select:focus {
+  border-color: #4a90e2;
+}
+
 .back-button {
   background-color: #007bff;
   color: white;
@@ -243,4 +312,67 @@ button:hover {
 
 .back-button:hover {
   background-color: #0056b3;
+}
+
+body.dark-mode .back-button {
+  background-color: #0056b3;
+}
+
+body.dark-mode .back-button:hover {
+  background-color: #003f8c;
+}
+
+.switch {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: '';
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #2196f3;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
 }

@@ -7,7 +7,13 @@
     <title>Story Page</title>
   </head>
   <body>
-    <div id="project-page"></div>
+    <div id="project-page">
+      <label class="switch">
+        <input type="checkbox" id="theme-toggle" />
+        <span class="slider round"></span>
+      </label>
+    </div>
     <script type="module" src="/src/views/storyView.ts"></script>
+    <script src="/src/helpers/themeHelper.ts"></script>
   </body>
 </html>

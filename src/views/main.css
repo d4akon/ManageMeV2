@@ -5,6 +5,12 @@ body {
   background-color: #f0f0f0;
   margin: 0;
   padding: 0;
+  transition: background-color 0.3s;
+}
+
+body.dark-mode {
+  background-color: #181818;
+  color: #ffffff;
 }
 
 #header-container {
@@ -13,13 +19,32 @@ body {
   text-align: center;
   background-color: #ffffff;
   border-bottom: 1px solid #ccc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+body.dark-mode #header-container {
+  background-color: #333333;
+  border-bottom: 1px solid #555555;
 }
 
 #title-header {
-  display: block;
   color: #3165eb;
-  text-align: center;
   font-size: 24px;
+}
+
+body.dark-mode #title-header {
+  color: #88aaff;
+}
+
+.theme-switch {
+  display: flex;
+  align-items: center;
+}
+
+.theme-switch input {
+  margin-left: 10px;
 }
 
 #login-button,
@@ -37,34 +62,43 @@ body {
   margin-right: 10px;
 }
 
+body.dark-mode #login-button,
+body.dark-mode #register-button,
+body.dark-mode #logout-button,
+body.dark-mode #add-project-btn {
+  background-color: #4a90e2;
+}
+
 #login-button {
-  float: right;
+  position: absolute;
+  right: 170px;
+  top: 23px;
   width: 80px;
 }
 
 #register-button {
-  float: right;
+  position: absolute;
+  top: 23px;
+  right: 80px;
   width: 80px;
-  margin-right: 10px;
 }
 
 #logout-button {
-  float: right;
+  position: absolute;
+  top: 23px;
+  right: 80px;
   width: 80px;
-  margin-right: 10px;
 }
 
 #add-project-btn {
   margin-left: 20px;
-  float: right;
 }
 
 #welcome-label {
-  float: left;
   position: absolute;
   color: #3165eb;
-  margin-right: 10px;
-  margin-bottom: 10px;
+  right: 200px;
+  top: 15px;
 }
 
 #projects-container {
@@ -76,6 +110,7 @@ body {
 .project-item {
   padding: 15px;
   margin: 10px;
+  cursor: pointer;
   width: 150px;
   height: 170px;
   background-color: #f0f0f0;
@@ -86,9 +121,18 @@ body {
   position: relative;
 }
 
+body.dark-mode .project-item {
+  background-color: #333333;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+}
+
 .project-item:hover {
   background-color: #e0e0e0;
   transform: translateY(-2px);
+}
+
+body.dark-mode .project-item:hover {
+  background-color: #444444;
 }
 
 .project-item-title {
@@ -97,14 +141,18 @@ body {
   margin-bottom: 8px;
 }
 
-.project-item-title:hover {
-  cursor: pointer;
+body.dark-mode .project-item-title {
+  color: #ffffff;
 }
 
 .project-item-desc {
   font-size: 14px;
-  color: #666;
+  color: #666666;
   margin-bottom: 10px;
+}
+
+body.dark-mode .project-item-desc {
+  color: #aaaaaa;
 }
 
 .project-item-delete {
@@ -167,6 +215,10 @@ button:hover {
   margin-right: 10px;
 }
 
+body.dark-mode .form-component > button {
+  background-color: #4a90e2;
+}
+
 .form-component > input {
   padding: 12px;
   border: 1px solid #ccc;
@@ -178,25 +230,24 @@ button:hover {
   transition: border-color 0.3s ease;
 }
 
+body.dark-mode .form-component > input {
+  background-color: #555555;
+  border-color: #888888;
+  color: #ffffff;
+}
+
 .form-component > input:focus {
   outline: none;
   border-color: #3165eb;
   box-shadow: 0 0 5px rgba(49, 101, 235, 0.5);
 }
 
-#add-form-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  display: none;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+body.dark-mode .form-component > input:focus {
+  border-color: #88aaff;
+  box-shadow: 0 0 5px rgba(136, 170, 255, 0.5);
 }
 
+#add-form-modal,
 #edit-form-modal {
   position: fixed;
   top: 0;
@@ -220,6 +271,10 @@ button:hover {
   position: relative;
 }
 
+body.dark-mode .modal-content {
+  background-color: #333333;
+}
+
 .modal-close-button {
   position: absolute;
   top: 10px;
@@ -228,8 +283,68 @@ button:hover {
   border: none;
   font-size: 1.5em;
   cursor: pointer;
+  color: #000000;
+}
+
+body.dark-mode .modal-close-button {
+  color: #ffffff;
 }
 
 .modal-overlay.show {
   display: flex;
+}
+
+.switch {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: '';
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #2196f3;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
 }
